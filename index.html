@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ronald M. Marasigan — IT Professor & Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:    '#0A0F1E',
+            slate:   '#1B2339',
+            panel:   '#131929',
+            cobalt:  '#3B6EF5',
+            gold:    '#C9A84C',
+            mist:    '#EFF2F9',
+            muted:   '#8A94B2',
+            border:  '#232C45',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #0A0F1E;
+      color: #EFF2F9;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0A0F1E; }
+    ::-webkit-scrollbar-thumb { background: #232C45; border-radius: 3px; }
+
+    /* Nav underline */
+    .nav-link {
+      position: relative;
+      color: #8A94B2;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 0; height: 1px;
+      background: #3B6EF5;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover { color: #EFF2F9; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Section */
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: #3B6EF5;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Skill pill */
+    .pill {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+      font-size: 0.78rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      background: #131929;
+      border: 1px solid #232C45;
+      color: #8A94B2;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .pill:hover { border-color: #3B6EF5; color: #EFF2F9; }
+
+    /* Project row */
+    .project-row {
+      border-top: 1px solid #232C45;
+      transition: background 0.18s;
+    }
+    .project-row:hover { background: #131929; }
+    .project-row:last-child { border-bottom: 1px solid #232C45; }
+
+    /* CTA button */
+    .btn-primary {
+      display: inline-block;
+      padding: 0.65rem 1.6rem;
+      background: #3B6EF5;
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #2e5ce0; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 0.65rem 1.6rem;
+      border: 1px solid #232C45;
+      color: #8A94B2;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: #3B6EF5; color: #EFF2F9; transform: translateY(-1px); }
+
+    /* Timeline dot */
+    .timeline-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #3B6EF5;
+      border: 2px solid #0A0F1E;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: flex; }
+
+    /* Hero gradient text */
+    .gradient-name {
+      background: linear-gradient(135deg, #EFF2F9 0%, #8A94B2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Accent line */
+    .accent-line {
+      display: inline-block;
+      width: 32px;
+      height: 2px;
+      background: #C9A84C;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    /* Card hover */
+    .skill-card {
+      background: #131929;
+      border: 1px solid #232C45;
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: #3B6EF5; transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+      .hero-name { font-size: clamp(2.4rem, 10vw, 4rem); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════ -->
+  <header class="fixed top-0 left-0 right-0 z-50" style="background: rgba(10,15,30,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #232C45;">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 group">
+        <div style="width:32px;height:32px;background:#3B6EF5;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;color:#fff;">RM</span>
+        </div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.9rem;color:#EFF2F9;">marasigan.dev</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#about"    class="nav-link">About</a>
+        <a href="#skills"   class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#framework" class="nav-link">Framework</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#contact"  class="nav-link">Contact</a>
+      </nav>
+
+      <!-- CTA -->
+      <div class="hidden md:block">
+        <a href="mailto:ronaldmmarasigan@gmail.com" class="btn-primary" style="padding: 0.45rem 1.1rem; font-size:0.82rem;">Get in Touch</a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-1" onclick="toggleMenu()">
+        <span style="display:block;width:22px;height:2px;background:#8A94B2;border-radius:1px;"></span>
+        <span style="display:block;width:22px;height:2px;background:#8A94B2;border-radius:1px;"></span>
+        <span style="display:block;width:16px;height:2px;background:#8A94B2;border-radius:1px;"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden flex-col px-6 pb-5 gap-4 border-t border-border" style="border-color:#232C45;">
+      <a href="#about"    class="nav-link pt-4" onclick="toggleMenu()">About</a>
+      <a href="#skills"   class="nav-link" onclick="toggleMenu()">Skills</a>
+      <a href="#projects" class="nav-link" onclick="toggleMenu()">Projects</a>
+      <a href="#framework" class="nav-link" onclick="toggleMenu()">Framework</a>
+      <a href="#experience" class="nav-link" onclick="toggleMenu()">Experience</a>
+      <a href="#contact"  class="nav-link" onclick="toggleMenu()">Contact</a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section id="top" style="min-height:100vh;display:flex;align-items:center;padding-top:80px;position:relative;overflow:hidden;">
+
+    <!-- Background geometry -->
+    <div style="position:absolute;top:0;right:0;width:55%;height:100%;pointer-events:none;z-index:0;">
+      <svg viewBox="0 0 800 900" width="100%" height="100%" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1B2339" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#0A0F1E" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <polygon points="300,0 800,0 800,900 0,900" fill="url(#g1)"/>
+        <line x1="350" y1="0" x2="800" y2="550" stroke="#232C45" stroke-width="1" opacity="0.5"/>
+        <line x1="500" y1="0" x2="200" y2="900" stroke="#232C45" stroke-width="1" opacity="0.3"/>
+        <circle cx="640" cy="200" r="180" fill="none" stroke="#3B6EF5" stroke-width="1" opacity="0.08"/>
+        <circle cx="640" cy="200" r="280" fill="none" stroke="#3B6EF5" stroke-width="1" opacity="0.05"/>
+        <circle cx="640" cy="200" r="380" fill="none" stroke="#3B6EF5" stroke-width="1" opacity="0.03"/>
+        <!-- Grid dots -->
+        <g fill="#8A94B2" opacity="0.12">
+          <circle cx="450" cy="120" r="1.5"/><circle cx="500" cy="120" r="1.5"/><circle cx="550" cy="120" r="1.5"/><circle cx="600" cy="120" r="1.5"/><circle cx="650" cy="120" r="1.5"/><circle cx="700" cy="120" r="1.5"/>
+          <circle cx="450" cy="170" r="1.5"/><circle cx="500" cy="170" r="1.5"/><circle cx="550" cy="170" r="1.5"/><circle cx="600" cy="170" r="1.5"/><circle cx="650" cy="170" r="1.5"/><circle cx="700" cy="170" r="1.5"/>
+          <circle cx="450" cy="220" r="1.5"/><circle cx="500" cy="220" r="1.5"/><circle cx="550" cy="220" r="1.5"/><circle cx="600" cy="220" r="1.5"/><circle cx="650" cy="220" r="1.5"/><circle cx="700" cy="220" r="1.5"/>
+          <circle cx="450" cy="270" r="1.5"/><circle cx="500" cy="270" r="1.5"/><circle cx="550" cy="270" r="1.5"/><circle cx="600" cy="270" r="1.5"/><circle cx="650" cy="270" r="1.5"/><circle cx="700" cy="270" r="1.5"/>
+          <circle cx="450" cy="320" r="1.5"/><circle cx="500" cy="320" r="1.5"/><circle cx="550" cy="320" r="1.5"/><circle cx="600" cy="320" r="1.5"/><circle cx="650" cy="320" r="1.5"/><circle cx="700" cy="320" r="1.5"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 w-full relative z-10">
+      <div class="max-w-3xl">
+        <p class="section-label mb-5">IT Professor &amp; Software Developer</p>
+
+        <h1 class="gradient-name hero-name" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(3rem,7vw,5.2rem);font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;">
+          Ronald M.<br>Marasigan
+        </h1>
+
+        <p style="font-size:1.05rem;color:#8A94B2;line-height:1.75;max-width:52ch;margin-bottom:2.5rem;">
+          I build web systems, desktop tools, and mobile applications — and teach the next generation of developers how to do the same. Creator of the <span style="color:#EFF2F9;font-weight:500;">LavaLust PHP Framework</span>, an open-source MVC framework used in production systems.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#framework" class="btn-outline">LavaLust Framework</a>
+        </div>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap gap-8 mt-16 pt-10" style="border-top:1px solid #232C45;">
+          <div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#EFF2F9;line-height:1;">10+</p>
+            <p style="font-size:0.8rem;color:#8A94B2;margin-top:4px;">Years Teaching</p>
+          </div>
+          <div style="width:1px;background:#232C45;"></div>
+          <div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#EFF2F9;line-height:1;">15+</p>
+            <p style="font-size:0.8rem;color:#8A94B2;margin-top:4px;">Systems Built</p>
+          </div>
+          <div style="width:1px;background:#232C45;"></div>
+          <div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#EFF2F9;line-height:1;">3</p>
+            <p style="font-size:0.8rem;color:#8A94B2;margin-top:4px;">Platforms</p>
+          </div>
+          <div style="width:1px;background:#232C45;"></div>
+          <div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#3B6EF5;line-height:1;">OSS</p>
+            <p style="font-size:0.8rem;color:#8A94B2;margin-top:4px;">Framework Author</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ ABOUT ═══════════════════════════════ -->
+  <section id="about" style="padding:100px 0;background:#0D1220;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-start">
+
+        <div>
+          <p class="section-label">About</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:1.5rem;color:#EFF2F9;">
+            Professor by day.<br>Developer by nature.
+          </h2>
+          <p style="color:#8A94B2;line-height:1.85;margin-bottom:1rem;font-size:0.95rem;">
+            I'm Ronald M. Marasigan, an IT faculty member and full-stack developer based in the Philippines. I hold a position at Mindoro State University's College of Computer Studies, where I teach web development, programming fundamentals, and software engineering to aspiring IT professionals.
+          </p>
+          <p style="color:#8A94B2;line-height:1.85;font-size:0.95rem;">
+            Beyond the classroom, I actively develop real-world systems — enrollment platforms, attendance monitoring solutions, document management tools, and more. I'm also the creator of <strong style="color:#EFF2F9;">LavaLust</strong>, a lightweight PHP MVC framework I built and maintain on GitHub for developers who need CodeIgniter-style simplicity without the overhead.
+          </p>
+        </div>
+
+        <div>
+          <!-- Highlights -->
+          <div class="flex flex-col gap-4">
+            <div class="skill-card">
+              <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.95rem;color:#EFF2F9;margin-bottom:0.4rem;">Web Development</p>
+              <p style="font-size:0.85rem;color:#8A94B2;line-height:1.6;">Full-stack PHP, JavaScript, and modern frameworks. From REST APIs to complete management systems.</p>
+            </div>
+            <div class="skill-card">
+              <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.95rem;color:#EFF2F9;margin-bottom:0.4rem;">Desktop &amp; Mobile Apps</p>
+              <p style="font-size:0.85rem;color:#8A94B2;line-height:1.6;">Cross-platform desktop applications and native mobile solutions for Android and iOS environments.</p>
+            </div>
+            <div class="skill-card">
+              <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.95rem;color:#EFF2F9;margin-bottom:0.4rem;">Open Source Maintainer</p>
+              <p style="font-size:0.85rem;color:#8A94B2;line-height:1.6;">Author and active maintainer of the LavaLust PHP Framework on GitHub under the handle <span style="color:#3B6EF5;">@ronmarasigan</span>.</p>
+            </div>
+            <div class="skill-card">
+              <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.95rem;color:#EFF2F9;margin-bottom:0.4rem;">Academic Research</p>
+              <p style="font-size:0.85rem;color:#8A94B2;line-height:1.6;">Participant in AACUP accreditations and research presentations at Mindoro State University.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SKILLS ═══════════════════════════════ -->
+  <section id="skills" style="padding:100px 0;">
+    <div class="max-w-6xl mx-auto px-6">
+      <p class="section-label">Technical Skills</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:#EFF2F9;margin-bottom:3rem;">What I work with</h2>
+
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <!-- Languages -->
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;color:#C9A84C;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;">
+            <span style="display:inline-block;width:24px;height:1px;background:#C9A84C;"></span>Languages
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="pill">PHP</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">Python</span>
+            <span class="pill">Java</span>
+            <span class="pill">C#</span>
+            <span class="pill">Kotlin</span>
+            <span class="pill">Dart</span>
+            <span class="pill">HTML5</span>
+            <span class="pill">CSS3</span>
+            <span class="pill">SQL</span>
+          </div>
+        </div>
+
+        <!-- Frameworks & Libraries -->
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;color:#C9A84C;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;">
+            <span style="display:inline-block;width:24px;height:1px;background:#C9A84C;"></span>Frameworks
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="pill" style="border-color:#3B6EF5;color:#3B6EF5;">LavaLust</span>
+            <span class="pill">CodeIgniter</span>
+            <span class="pill">Laravel</span>
+            <span class="pill">Vue.js</span>
+            <span class="pill">React</span>
+            <span class="pill">Flutter</span>
+            <span class="pill">Bootstrap</span>
+            <span class="pill">Tailwind</span>
+            <span class="pill">Electron</span>
+          </div>
+        </div>
+
+        <!-- Tools & Platforms -->
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;color:#C9A84C;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;">
+            <span style="display:inline-block;width:24px;height:1px;background:#C9A84C;"></span>Tools &amp; Platforms
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="pill">MySQL</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">SQLite</span>
+            <span class="pill">Git / GitHub</span>
+            <span class="pill">VS Code</span>
+            <span class="pill">Android Studio</span>
+            <span class="pill">Postman</span>
+            <span class="pill">Linux</span>
+            <span class="pill">Apache</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ PROJECTS ═══════════════════════════════ -->
+  <section id="projects" style="padding:100px 0;background:#0D1220;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+        <div>
+          <p class="section-label">Projects</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:#EFF2F9;">Systems I've built</h2>
+        </div>
+        <p style="font-size:0.85rem;color:#8A94B2;max-width:38ch;line-height:1.65;">A selection of production systems developed for educational institutions and organizational use.</p>
+      </div>
+
+      <!-- Project rows -->
+      <div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Enrollment System</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#3B6EF5;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Web</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Complete student enrollment management platform covering pre-enrollment, sectioning, schedule setup, and clearance workflows for university use.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">PHP</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">LavaLust</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">MySQL</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">JavaScript</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Academic</p>
+          </div>
+        </div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Attendance Monitoring System</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#C9A84C;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Web + Mobile</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Real-time attendance tracking for students and faculty, with QR code scanning, reporting dashboards, and exportable records.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">PHP</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">JavaScript</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">QR Code API</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">MySQL</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Academic</p>
+          </div>
+        </div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Faculty Information System</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#3B6EF5;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Web</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Centralized records management for faculty profiles, teaching loads, credentials, and performance evaluations across departments.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">PHP</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">LavaLust</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">Bootstrap</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">MySQL</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Academic</p>
+          </div>
+        </div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Document Management System</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#3B6EF5;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Web</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Paperless document routing and archival system with approval workflows, version control, and full audit trails.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">PHP</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">Vue.js</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">MySQL</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">REST API</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Enterprise</p>
+          </div>
+        </div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Grading &amp; Evaluation System</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#3B6EF5;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Web</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Online grade encoding with GWA computation, class reporting, subject evaluation, and print-ready grade sheets for university-level requirements.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">PHP</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">JavaScript</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">MySQL</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Academic</p>
+          </div>
+        </div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Inventory &amp; Asset Management</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#C9A84C;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Desktop</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Desktop application for tracking university assets, equipment assignments, maintenance schedules, and supply inventory.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">C#</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">.NET</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">SQL Server</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Institutional</p>
+          </div>
+        </div>
+
+        <div class="project-row" style="padding:1.6rem 1rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;cursor:default;border-radius:4px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#EFF2F9;">Mobile Classroom Companion</h3>
+              <span style="font-size:0.72rem;background:#1B2339;color:#C9A84C;padding:2px 8px;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Mobile</span>
+            </div>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.65;max-width:60ch;">Android/iOS app for students to view schedules, grades, announcements, and submit requirements — connected to university web systems.</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">Flutter</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">Dart</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">REST API</span>
+              <span class="pill" style="font-size:0.72rem;padding:0.15rem 0.55rem;">Firebase</span>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <p style="font-size:0.78rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">Mobile</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FRAMEWORK ═══════════════════════════════ -->
+  <section id="framework" style="padding:100px 0;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="section-label">Open Source</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:#EFF2F9;line-height:1.2;margin-bottom:1.25rem;">LavaLust PHP<br>Framework</h2>
+          <p style="color:#8A94B2;line-height:1.8;margin-bottom:1rem;font-size:0.95rem;">
+            LavaLust is a lightweight PHP MVC framework I authored and actively maintain on GitHub. Built with CodeIgniter 3 conventions in mind, it gives developers a clean, familiar structure without the weight of modern full-stack frameworks.
+          </p>
+          <p style="color:#8A94B2;line-height:1.8;margin-bottom:2rem;font-size:0.95rem;">
+            It supports routing, models, views, controllers, database abstraction, session management, and a growing set of helpers — all designed to let developers focus on building, not configuring.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://github.com/ronmarasigan/LavaLust" target="_blank" rel="noopener" class="btn-primary">View on GitHub</a>
+            <a href="#contact" class="btn-outline">Contribute / Contact</a>
+          </div>
+        </div>
+
+        <!-- Code snippet visual -->
+        <div style="background:#0A0F1E;border:1px solid #232C45;border-radius:6px;overflow:hidden;">
+          <div style="background:#131929;padding:0.75rem 1rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid #232C45;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#3A3A3A;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#3A3A3A;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#3A3A3A;"></div>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:#8A94B2;margin-left:8px;">Welcome.php — Controller</span>
+          </div>
+          <pre style="padding:1.5rem;font-size:0.82rem;line-height:1.7;overflow-x:auto;color:#EFF2F9;font-family:'Courier New',monospace;margin:0;"><span style="color:#8A94B2;">// LavaLust Controller Example</span>
+<span style="color:#C9A84C;">&lt;?php</span>
+
+<span style="color:#3B6EF5;">class</span> <span style="color:#EFF2F9;">Welcome</span> <span style="color:#3B6EF5;">extends</span> <span style="color:#C9A84C;">LL_Controller</span>
+{
+  <span style="color:#3B6EF5;">public function</span> <span style="color:#6EE7B7;">index</span>()
+  {
+    <span style="color:#C9A84C;">$this</span>-&gt;<span style="color:#6EE7B7;">call</span>-&gt;<span style="color:#6EE7B7;">model</span>(<span style="color:#6EE7B7;">'UserModel'</span>);
+    <span style="color:#C9A84C;">$data</span>[<span style="color:#6EE7B7;">'users'</span>] =
+      <span style="color:#C9A84C;">$this</span>-&gt;<span style="color:#6EE7B7;">UserModel</span>-&gt;<span style="color:#6EE7B7;">all</span>();
+
+    <span style="color:#C9A84C;">$this</span>-&gt;<span style="color:#6EE7B7;">call</span>-&gt;<span style="color:#6EE7B7;">view</span>(
+      <span style="color:#6EE7B7;">'welcome_view'</span>, <span style="color:#C9A84C;">$data</span>
+    );
+  }
+}</pre>
+        </div>
+
+      </div>
+
+      <!-- Framework features -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
+        <div style="padding:1.1rem;border:1px solid #232C45;border-radius:4px;text-align:center;background:#0D1220;">
+          <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.9rem;color:#EFF2F9;margin-bottom:0.3rem;">MVC Pattern</p>
+          <p style="font-size:0.78rem;color:#8A94B2;">Clean separation of logic</p>
+        </div>
+        <div style="padding:1.1rem;border:1px solid #232C45;border-radius:4px;text-align:center;background:#0D1220;">
+          <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.9rem;color:#EFF2F9;margin-bottom:0.3rem;">Lightweight</p>
+          <p style="font-size:0.78rem;color:#8A94B2;">No bloat, fast load</p>
+        </div>
+        <div style="padding:1.1rem;border:1px solid #232C45;border-radius:4px;text-align:center;background:#0D1220;">
+          <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.9rem;color:#EFF2F9;margin-bottom:0.3rem;">ORM-style Model</p>
+          <p style="font-size:0.78rem;color:#8A94B2;">Fluent query builder</p>
+        </div>
+        <div style="padding:1.1rem;border:1px solid #3B6EF5;border-radius:4px;text-align:center;background:#0D1220;">
+          <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.9rem;color:#3B6EF5;margin-bottom:0.3rem;">Open Source</p>
+          <p style="font-size:0.78rem;color:#8A94B2;">Free on GitHub</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ EXPERIENCE ═══════════════════════════════ -->
+  <section id="experience" style="padding:100px 0;background:#0D1220;">
+    <div class="max-w-6xl mx-auto px-6">
+      <p class="section-label">Experience</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:#EFF2F9;margin-bottom:3rem;">Career &amp; Academic Path</h2>
+
+      <div class="max-w-2xl">
+
+        <!-- Timeline item -->
+        <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="timeline-dot"></div>
+            <div style="width:1px;background:#232C45;flex:1;margin-top:8px;"></div>
+          </div>
+          <div style="padding-bottom:2rem;">
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:500;color:#3B6EF5;margin-bottom:0.35rem;">Present</p>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;color:#EFF2F9;margin-bottom:0.25rem;">IT Faculty Member</h3>
+            <p style="font-size:0.85rem;color:#C9A84C;margin-bottom:0.6rem;">Mindoro State University — College of Computer Studies</p>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.7;">Teaching web development, programming, and software engineering. Involved in AACUP accreditations and departmental research activities. Mentoring students through thesis and capstone projects.</p>
+          </div>
+        </div>
+
+        <!-- Timeline item -->
+        <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="timeline-dot"></div>
+            <div style="width:1px;background:#232C45;flex:1;margin-top:8px;"></div>
+          </div>
+          <div style="padding-bottom:2rem;">
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:500;color:#3B6EF5;margin-bottom:0.35rem;">Ongoing</p>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;color:#EFF2F9;margin-bottom:0.25rem;">Open Source Author — LavaLust PHP Framework</h3>
+            <p style="font-size:0.85rem;color:#C9A84C;margin-bottom:0.6rem;">GitHub @ronmarasigan</p>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.7;">Designed, built, and actively maintain the LavaLust PHP MVC Framework. Handle issue tracking, documentation, versioning, and community contributions on GitHub.</p>
+          </div>
+        </div>
+
+        <!-- Timeline item -->
+        <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="timeline-dot"></div>
+            <div style="width:1px;background:#232C45;flex:1;margin-top:8px;"></div>
+          </div>
+          <div style="padding-bottom:2rem;">
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:500;color:#3B6EF5;margin-bottom:0.35rem;">Ongoing</p>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;color:#EFF2F9;margin-bottom:0.25rem;">Freelance Software Developer</h3>
+            <p style="font-size:0.85rem;color:#C9A84C;margin-bottom:0.6rem;">Web, Desktop &amp; Mobile</p>
+            <p style="font-size:0.87rem;color:#8A94B2;line-height:1.7;">Building custom software systems for academic institutions and organizations. Projects include enrollment systems, monitoring tools, and administrative platforms.</p>
+          </div>
+        </div>
+
+        <!-- Timeline item (last) -->
+        <div style="display:flex;gap:1.5rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="timeline-dot" style="background:#8A94B2;"></div>
+          </div>
+          <div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:500;color:#8A94B2;margin-bottom:0.35rem;">Foundation</p>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;color:#EFF2F9;margin-bottom:0.25rem;">B.S. Information Technology</h3>
+            <p style="font-size:0.85rem;color:#C9A84C;">Mindoro State University</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ CONTACT ═══════════════════════════════ -->
+  <section id="contact" style="padding:100px 0;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-start">
+
+        <div>
+          <p class="section-label">Contact</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:#EFF2F9;line-height:1.2;margin-bottom:1.25rem;">Let's build<br>something together.</h2>
+          <p style="color:#8A94B2;line-height:1.8;margin-bottom:2rem;font-size:0.95rem;">
+            Whether you need a custom system built, want to collaborate on a project, or have questions about LavaLust — I'm open to conversations.
+          </p>
+
+          <div class="flex flex-col gap-4">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:40px;height:40px;background:#131929;border:1px solid #232C45;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#3B6EF5" stroke-width="2">
+                  <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <p style="font-size:0.72rem;color:#8A94B2;margin-bottom:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Email</p>
+                <a href="mailto:ronaldmmarasigan@gmail.com" style="font-size:0.9rem;color:#EFF2F9;font-family:'Space Grotesk',sans-serif;font-weight:500;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#3B6EF5'" onmouseout="this.style.color='#EFF2F9'">ronaldmmarasigan@gmail.com</a>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:40px;height:40px;background:#131929;border:1px solid #232C45;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#3B6EF5" stroke-width="2">
+                  <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                </svg>
+              </div>
+              <div>
+                <p style="font-size:0.72rem;color:#8A94B2;margin-bottom:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">Website</p>
+                <a href="https://marasigan.dev" target="_blank" rel="noopener" style="font-size:0.9rem;color:#EFF2F9;font-family:'Space Grotesk',sans-serif;font-weight:500;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#3B6EF5'" onmouseout="this.style.color='#EFF2F9'">marasigan.dev</a>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:40px;height:40px;background:#131929;border:1px solid #232C45;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#3B6EF5">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+              </div>
+              <div>
+                <p style="font-size:0.72rem;color:#8A94B2;margin-bottom:2px;font-family:'Space Grotesk',sans-serif;font-weight:500;">GitHub</p>
+                <a href="https://github.com/ronmarasigan" target="_blank" rel="noopener" style="font-size:0.9rem;color:#EFF2F9;font-family:'Space Grotesk',sans-serif;font-weight:500;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#3B6EF5'" onmouseout="this.style.color='#EFF2F9'">@ronmarasigan</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Simple contact note -->
+        <div>
+          <div style="background:#131929;border:1px solid #232C45;border-radius:6px;padding:2rem;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem;color:#EFF2F9;margin-bottom:1rem;">Available for</h3>
+            <div class="flex flex-col gap-3">
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:#3B6EF5;margin-top:6px;flex-shrink:0;"></div>
+                <div>
+                  <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.88rem;color:#EFF2F9;">Custom System Development</p>
+                  <p style="font-size:0.82rem;color:#8A94B2;line-height:1.6;">Web, desktop, and mobile applications for schools and organizations.</p>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:#3B6EF5;margin-top:6px;flex-shrink:0;"></div>
+                <div>
+                  <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.88rem;color:#EFF2F9;">LavaLust Consulting &amp; Support</p>
+                  <p style="font-size:0.82rem;color:#8A94B2;line-height:1.6;">Help with integrating or extending the framework for your project.</p>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:#3B6EF5;margin-top:6px;flex-shrink:0;"></div>
+                <div>
+                  <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.88rem;color:#EFF2F9;">Technical Training</p>
+                  <p style="font-size:0.82rem;color:#8A94B2;line-height:1.6;">Web development workshops and short courses for students and teams.</p>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:#C9A84C;margin-top:6px;flex-shrink:0;"></div>
+                <div>
+                  <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.88rem;color:#EFF2F9;">Open Source Collaboration</p>
+                  <p style="font-size:0.82rem;color:#8A94B2;line-height:1.6;">Contributions and pull requests to LavaLust are welcome on GitHub.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid #232C45;">
+              <a href="mailto:ronaldmmarasigan@gmail.com" class="btn-primary" style="display:block;text-align:center;">Send a Message</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+  <footer style="border-top:1px solid #232C45;padding:2rem 0;background:#0A0F1E;">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+      <p style="font-size:0.82rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;">
+        &copy; 2025 Ronald M. Marasigan &mdash; <a href="https://marasigan.dev" style="color:#3B6EF5;text-decoration:none;">marasigan.dev</a>
+      </p>
+      <div class="flex gap-6">
+        <a href="https://github.com/ronmarasigan" target="_blank" rel="noopener" style="font-size:0.82rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#EFF2F9'" onmouseout="this.style.color='#8A94B2'">GitHub</a>
+        <a href="https://github.com/ronmarasigan/LavaLust" target="_blank" rel="noopener" style="font-size:0.82rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#EFF2F9'" onmouseout="this.style.color='#8A94B2'">LavaLust</a>
+        <a href="mailto:ronaldmmarasigan@gmail.com" style="font-size:0.82rem;color:#8A94B2;font-family:'Space Grotesk',sans-serif;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#EFF2F9'" onmouseout="this.style.color='#8A94B2'">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('open');
+    }
+
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.style.color = '#8A94B2';
+          });
+          const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+          if (active) active.style.color = '#EFF2F9';
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>
