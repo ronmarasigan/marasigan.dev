@@ -563,12 +563,12 @@
             <div style="width:10px;height:10px;border-radius:50%;background:#3A3A3A;"></div>
             <div style="width:10px;height:10px;border-radius:50%;background:#3A3A3A;"></div>
             <div style="width:10px;height:10px;border-radius:50%;background:#3A3A3A;"></div>
-            <span style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:#8A94B2;margin-left:8px;">Welcome.php — Controller</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:#8A94B2;margin-left:8px;">UserController.php — Controller</span>
           </div>
           <pre style="padding:1.5rem;font-size:0.82rem;line-height:1.7;overflow-x:auto;color:#EFF2F9;font-family:'Courier New',monospace;margin:0;"><span style="color:#8A94B2;">// LavaLust Controller Example</span>
 <span style="color:#C9A84C;">&lt;?php</span>
 
-<span style="color:#3B6EF5;">class</span> <span style="color:#EFF2F9;">Welcome</span> <span style="color:#3B6EF5;">extends</span> <span style="color:#C9A84C;">Controller</span>
+<span style="color:#3B6EF5;">class</span> <span style="color:#EFF2F9;">UserController</span> <span style="color:#3B6EF5;">extends</span> <span style="color:#C9A84C;">Controller</span>
 {
   <span style="color:#3B6EF5;">public function</span> <span style="color:#6EE7B7;">index</span>()
   {
@@ -577,7 +577,7 @@
       <span style="color:#C9A84C;">$this</span>-&gt;<span style="color:#6EE7B7;">UserModel</span>-&gt;<span style="color:#6EE7B7;">all</span>();
 
     <span style="color:#C9A84C;">$this</span>-&gt;<span style="color:#6EE7B7;">call</span>-&gt;<span style="color:#6EE7B7;">view</span>(
-      <span style="color:#6EE7B7;">'welcome_view'</span>, <span style="color:#C9A84C;">$data</span>
+      <span style="color:#6EE7B7;">'user_view'</span>, <span style="color:#C9A84C;">$data</span>
     );
   }
 }</pre>
